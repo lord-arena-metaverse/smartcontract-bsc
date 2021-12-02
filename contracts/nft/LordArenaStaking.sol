@@ -66,6 +66,7 @@ contract LordArenaStaking is Initializable , OwnableUpgradeable{
         if (listStaking[msg.sender].amount > 0) {
             uint256 reward = getReward(msg.sender);
             IERC20Upgradeable(REWARD_TOKEN).transferFrom(TREASURY_ADDRESS ,msg.sender, reward);
+            listStaking[msg.sender].stakingAt = block.timestamp;
         }
         if (_amount > 0) {
             IERC20Upgradeable(STAKE_TOKEN).transfer(msg.sender, _amount);
