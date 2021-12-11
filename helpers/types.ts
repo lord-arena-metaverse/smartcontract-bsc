@@ -23,6 +23,7 @@ export enum AavePools {
 export enum eContractid {
   LordArenaTokenDev = 'LordArenaTokenDev',
   LordArenaStaking = 'LordArenaStaking',
+  LordArenaLPStaking = 'LordArenaLPStaking',
   TransparentUpgradeableProxy = "TransparentUpgradeableProxy",
   InitializableAdminUpgradeabilityProxy = "InitializableAdminUpgradeabilityProxy"
 }

@@ -1,6 +1,6 @@
 import {tEthereumAddress, eContractid} from './types';
 import {getFirstSigner} from './contracts-getters';
-import { InitializableAdminUpgradeabilityProxyFactory, LordArenaStakingFactory, LordArenaTokenDevFactory} from '../types';
+import { InitializableAdminUpgradeabilityProxyFactory, LordArenaLpStakingFactory, LordArenaStakingFactory, LordArenaTokenDevFactory} from '../types';
 import {withSaveAndVerify} from './contracts-helpers';
 import {waitForTx} from './misc-utils';
 import {Interface} from 'ethers/lib/utils';
@@ -38,6 +38,18 @@ export const deployLordArenaStaking = async (
   return withSaveAndVerify(
     await new LordArenaStakingFactory(await getFirstSigner()).deploy(...args),
     eContractid.LordArenaStaking,
+    args,
+    verify
+  );
+};
+
+export const deployLordArenaLPStaking = async (
+  verify?: boolean,
+) => {
+  const args: [] =[];
+  return withSaveAndVerify(
+    await new LordArenaLpStakingFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordArenaLPStaking,
     args,
     verify
   );

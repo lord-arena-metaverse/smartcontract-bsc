@@ -1,5 +1,5 @@
 import {
-  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory
+  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory, LordArenaLpStakingFactory
 } from '../types';
 import {DRE, getDb} from './misc-utils';
 import {eContractid, tEthereumAddress} from './types';
@@ -25,5 +25,12 @@ export const getLordArenaStaking = async (address?: tEthereumAddress) =>
   await LordArenaStakingFactory.connect(
     address ||
       (await getDb().get(`${eContractid.LordArenaStaking}.${DRE.network.name}`).value()).address,
+    await getFirstSigner()
+  );
+
+export const getLordArenaLPStaking = async (address?: tEthereumAddress) =>
+  await LordArenaLpStakingFactory.connect(
+    address ||
+      (await getDb().get(`${eContractid.LordArenaLPStaking}.${DRE.network.name}`).value()).address,
     await getFirstSigner()
   );
