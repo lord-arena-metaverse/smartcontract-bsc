@@ -1,44 +1,45 @@
-import path from 'path';
-import fs from 'fs';
-import { HardhatUserConfig } from 'hardhat/config';
+import path from "path";
+import fs from "fs";
+import { HardhatUserConfig } from "hardhat/config";
 // @ts-ignore
-import { accounts } from './test-wallets.js';
-import { eEthereumNetwork } from './helpers/types';
-import { BUIDLEREVM_CHAINID, COVERAGE_CHAINID } from './helpers/buidler-constants';
+import { accounts } from "./test-wallets.js";
+import { eEthereumNetwork } from "./helpers/types";
+import { BUIDLEREVM_CHAINID, COVERAGE_CHAINID } from "./helpers/buidler-constants";
 
-import '@nomiclabs/hardhat-ethers';
-import '@nomiclabs/hardhat-waffle';
-import '@nomiclabs/hardhat-etherscan';
-import 'hardhat-gas-reporter';
-import 'hardhat-typechain';
-import 'solidity-coverage';
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-waffle";
+import "@nomiclabs/hardhat-etherscan";
+import "hardhat-gas-reporter";
+import "hardhat-typechain";
+import "solidity-coverage";
 
-require('dotenv').config();
+require("dotenv").config();
 
-const SKIP_LOAD = process.env.SKIP_LOAD === 'true';
+const SKIP_LOAD = process.env.SKIP_LOAD === "true";
 const DEFAULT_BLOCK_GAS_LIMIT = 12450000;
 const DEFAULT_GAS_PRICE = 100 * 1000 * 1000 * 1000; // 75 gwei
-const HARDFORK = 'istanbul';
-const INFURA_KEY = process.env.INFURA_KEY || '';
-const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || '';
+const HARDFORK = "istanbul";
+const INFURA_KEY = process.env.INFURA_KEY || "";
+const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || "";
 const MNEMONIC_PATH = "m/44'/60'/0'/0";
-const MNEMONIC = process.env.MNEMONIC || '';
-const PRIVATE_KEY = process.env.PRIVATE_KEY || '';
-const PRIVATE_PROD_KEY = process.env.PRIVATE_PROD_KEY || '';
+const MNEMONIC = process.env.MNEMONIC || "";
+// const PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY || "";
+const PRIVATE_KEY = process.env.LOCAL_KEY || "";
+const PRIVATE_PROD_KEY = process.env.DEPLOYER_PROD_PRIVATE_KEY || "";
 
 // Prevent to load scripts before compilation and typechain
 if (!SKIP_LOAD) {
-  ['misc', 'dev'].forEach((folder) => {
-    const tasksPath = path.join(__dirname, 'tasks', folder);
+  ["misc", "dev"].forEach((folder) => {
+    const tasksPath = path.join(__dirname, "tasks", folder);
     fs.readdirSync(tasksPath)
-      .filter((pth) => pth.includes('.ts'))
+      .filter((pth) => pth.includes(".ts"))
       .forEach((task) => {
         require(`${tasksPath}/${task}`);
       });
   });
 }
 
-require(`${path.join(__dirname, 'tasks/misc')}/set-DRE.ts`);
+require(`${path.join(__dirname, "tasks/misc")}/set-DRE.ts`);
 
 const getCommonNetworkConfig = (networkName: eEthereumNetwork, networkId: number) => {
   return {
@@ -60,52 +61,52 @@ const buidlerConfig: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: '0.8.0',
+        version: "0.8.0",
         settings: {
           optimizer: { enabled: true, runs: 200 },
-          evmVersion: 'istanbul',
+          evmVersion: "istanbul",
         },
       },
       {
-        version: '0.7.5',
+        version: "0.7.5",
         settings: {
           optimizer: { enabled: true, runs: 200 },
-          evmVersion: 'istanbul',
+          evmVersion: "istanbul",
         },
       },
       {
-        version: '0.8.0',
+        version: "0.8.0",
         settings: {
           optimizer: { enabled: true, runs: 200 },
-          evmVersion: 'istanbul',
+          evmVersion: "istanbul",
         },
       },
       {
-        version: '0.6.10',
+        version: "0.6.10",
         settings: {
           optimizer: { enabled: true, runs: 200 },
-          evmVersion: 'istanbul',
+          evmVersion: "istanbul",
         },
       },
       {
-        version: '0.6.12',
+        version: "0.6.12",
         settings: {
           optimizer: { enabled: true, runs: 200 },
-          evmVersion: 'istanbul',
+          evmVersion: "istanbul",
         },
       },
       {
-        version: '0.5.16',
+        version: "0.5.16",
         settings: {
           optimizer: { enabled: true, runs: 200 },
-          evmVersion: 'istanbul',
+          evmVersion: "istanbul",
         },
       },
     ],
   },
   typechain: {
-    outDir: 'types',
-    target: 'ethers-v5',
+    outDir: "types",
+    target: "ethers-v5",
   },
   etherscan: {
     apiKey: ETHERSCAN_KEY,
@@ -118,7 +119,7 @@ const buidlerConfig: HardhatUserConfig = {
     ropsten: getCommonNetworkConfig(eEthereumNetwork.ropsten, 3),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
     bbtest: {
-      url: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
       // url: 'https://bsc-dataseed.binance.org/',
       chainId: 97,
       // chainId: 56,
@@ -126,13 +127,13 @@ const buidlerConfig: HardhatUserConfig = {
       accounts: [PRIVATE_KEY],
     },
     bsc: {
-      url: 'https://bsc-dataseed.binance.org/',
+      url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
       gasPrice: DEFAULT_GAS_PRICE,
       accounts: [PRIVATE_PROD_KEY],
     },
     hardhat: {
-      hardfork: 'istanbul',
+      hardfork: "istanbul",
       blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
       gas: DEFAULT_BLOCK_GAS_LIMIT,
       gasPrice: 8000000000,
@@ -145,19 +146,19 @@ const buidlerConfig: HardhatUserConfig = {
       })),
     },
     buidlerevm_docker: {
-      hardfork: 'istanbul',
+      hardfork: "istanbul",
       blockGasLimit: 9500000,
       gas: 9500000,
       gasPrice: 8000000000,
       chainId: BUIDLEREVM_CHAINID,
       throwOnTransactionFailures: true,
       throwOnCallFailures: true,
-      url: 'http://localhost:8545',
+      url: "http://localhost:8545",
     },
     ganache: {
-      url: 'http://ganache:8545',
+      url: "http://ganache:8545",
       accounts: {
-        mnemonic: 'fox sight canyon orphan hotel grow hedgehog build bless august weather swarm',
+        mnemonic: "fox sight canyon orphan hotel grow hedgehog build bless august weather swarm",
         path: "m/44'/60'/0'/0",
         initialIndex: 0,
         count: 20,

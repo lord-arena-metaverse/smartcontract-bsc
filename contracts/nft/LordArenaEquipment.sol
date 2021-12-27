@@ -10,7 +10,7 @@ import "../dependencies/open-zeppelin/proxy/utils/Initializable.sol";
 import "../dependencies/open-zeppelin/utils/CountersUpgradeable.sol";
 import "../dependencies/open-zeppelin/utils/StringsUpgradeable.sol";
 
-contract LordArenaCharacter is
+contract LordArenaEquipment is
   Initializable,
   ERC721Upgradeable,
   ERC721URIStorageUpgradeable,
@@ -22,16 +22,20 @@ contract LordArenaCharacter is
 
   CountersUpgradeable.Counter private _tokenIdCounter;
 
-  struct CharacterInfo {
+  struct EquipmentInfo {
     uint256 nftID;
-    uint256 level;
-    uint256 characterID;
-    uint256 typeID; // 1 str, 2 agi, 3 intel
-    uint256 quality; // 1 common, 2 rare, 3 rare+, 4 elite, 5 elite+, 6 legendary, 7 legendary+, 8 mythic, 9 mythic+, 10 immortal
-    uint256 faction; // 1 last remnants, 2 lost faith, 3 quite storm, 4 metal march, 5 awaken ember, 6 none
+    uint256 equipmentID;
+    uint256 attack;
+    uint256 maxHP;
+    uint256 defense;
+    uint256 accuracy;
+    uint256 movementSpeed;
+    uint256 dodge;
+    uint256 hpRegeneration;
+    uint256 criticalChance;
   }
 
-  mapping(uint256 => CharacterInfo) public properties;
+  mapping(uint256 => EquipmentInfo) public properties;
   mapping(address => bool) public whitelistMinter;
   string public prefixURI;
 
@@ -107,19 +111,28 @@ contract LordArenaCharacter is
 
   function safeMint(
     address to,
-    uint256 _charId,
-    uint256 _typeId,
-    uint256 _quality,
-    uint256 _faction
+    uint256 _equipmentId,
+    uint256 _attack,
+    uint256 _maxHP,
+    uint256 _defense,
+    uint256 _accuracy,
+    uint256 _movementSpeed,
+    uint256 _dodge,
+    uint256 _hpRegeneration,
+    uint256 _criticalChance
   ) public onlyWhitelistMinter returns (uint256) {
     _safeMint(to, _tokenIdCounter.current());
     emit NewCharacter(_tokenIdCounter.current(), to);
-    properties[_tokenIdCounter.current()].level = 1;
-    properties[_tokenIdCounter.current()].characterID = _charId;
+    properties[_tokenIdCounter.current()].equipmentID = _equipmentId;
     properties[_tokenIdCounter.current()].nftID = _tokenIdCounter.current();
-    properties[_tokenIdCounter.current()].typeID = _typeId;
-    properties[_tokenIdCounter.current()].quality = _quality;
-    properties[_tokenIdCounter.current()].faction = _faction;
+    properties[_tokenIdCounter.current()].attack = _attack;
+    properties[_tokenIdCounter.current()].maxHP = _maxHP;
+    properties[_tokenIdCounter.current()].defense = _defense;
+    properties[_tokenIdCounter.current()].accuracy = _accuracy;
+    properties[_tokenIdCounter.current()].movementSpeed = _movementSpeed;
+    properties[_tokenIdCounter.current()].dodge = _dodge;
+    properties[_tokenIdCounter.current()].hpRegeneration = _hpRegeneration;
+    properties[_tokenIdCounter.current()].criticalChance = _criticalChance;
     _tokenIdCounter.increment();
     return _tokenIdCounter.current() - 1;
   }
@@ -143,15 +156,15 @@ contract LordArenaCharacter is
     return (_tokenIdCounter.current());
   }
 
-  function getTokenOwners(address _owner, uint256[] memory _selectedIdx) public view returns (CharacterInfo[] memory) {
+  function getTokenOwners(address _owner, uint256[] memory _selectedIdx) public view returns (EquipmentInfo[] memory) {
     if (_selectedIdx.length > 0) {
-      CharacterInfo[] memory nftInfos = new CharacterInfo[](_selectedIdx.length);
+      EquipmentInfo[] memory nftInfos = new EquipmentInfo[](_selectedIdx.length);
       for (uint256 i = 0; i < _selectedIdx.length; i++) {
         nftInfos[i] = properties[_selectedIdx[i]];
       }
       return nftInfos;
     } else {
-      CharacterInfo[] memory nftInfos = new CharacterInfo[](tokensOfOwners[_owner].length);
+      EquipmentInfo[] memory nftInfos = new EquipmentInfo[](tokensOfOwners[_owner].length);
       for (uint256 i = 0; i < tokensOfOwners[_owner].length; i++) {
         nftInfos[i] = properties[tokensOfOwners[_owner][i]];
       }
