@@ -1,26 +1,30 @@
-import { task } from 'hardhat/config';
+import { task } from "hardhat/config";
 
-import { eContractid, eEthereumNetwork } from '../../helpers/types';
+import { eContractid, eEthereumNetwork } from "../../helpers/types";
 
-import { getContract, registerContractInJsonDb } from '../../helpers/contracts-helpers';
-import { getLordArenaLPStaking, getProxy } from '../../helpers/contracts-getters';
-import '@openzeppelin/hardhat-upgrades';
-import { deployInitializableAdminUpgradeabilityProxy, deployLordArenaLPStaking, deployLordArenaStaking} from '../../helpers/contracts-deployments';
+import { getContract, registerContractInJsonDb } from "../../helpers/contracts-helpers";
+import { getLordArenaLPStaking, getProxy } from "../../helpers/contracts-getters";
+import "@openzeppelin/hardhat-upgrades";
+import {
+  deployInitializableAdminUpgradeabilityProxy,
+  deployLordArenaLPStaking,
+  deployLordArenaStaking,
+} from "../../helpers/contracts-deployments";
 
-import { waitForTx } from '../../helpers/misc-utils';
-import { verifyContract } from '../../helpers/etherscan-verification';
+import { waitForTx } from "../../helpers/misc-utils";
+import { verifyContract } from "../../helpers/etherscan-verification";
 
-const {LordArenaLPStaking } = eContractid;
+const { LordArenaLPStaking } = eContractid;
 
 task(`deploy-${LordArenaLPStaking}`, `Deploys the ${LordArenaLPStaking} contract`)
-  .addFlag('verify', 'Verify Lastsurvivor contract via Etherscan API.')
+  .addFlag("verify", "Verify Lord Arena contract via Etherscan API.")
   .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
-    await localBRE.run('set-DRE');
+    await localBRE.run("set-DRE");
 
     if (!localBRE.network.config.chainId) {
-      throw new Error('INVALID_CHAIN_ID');
+      throw new Error("INVALID_CHAIN_ID");
     }
-    
+
     const network = localBRE.network.name as eEthereumNetwork;
 
     const proxyAdmin = "0x683b99Fcd0a8cc0d10718Bb1a85B3b78345065b8"
