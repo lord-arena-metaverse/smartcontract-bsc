@@ -108,18 +108,14 @@ contract LordArenaCharacter is
   function safeMint(
     address to,
     uint256 _charId,
-    uint256 _typeId,
-    uint256 _quality,
-    uint256 _faction
+    uint256 _quality
   ) public onlyWhitelistMinter returns (uint256) {
     _safeMint(to, _tokenIdCounter.current());
     emit NewCharacter(_tokenIdCounter.current(), to);
     properties[_tokenIdCounter.current()].level = 1;
     properties[_tokenIdCounter.current()].characterID = _charId;
     properties[_tokenIdCounter.current()].nftID = _tokenIdCounter.current();
-    properties[_tokenIdCounter.current()].typeID = _typeId;
     properties[_tokenIdCounter.current()].quality = _quality;
-    properties[_tokenIdCounter.current()].faction = _faction;
     _tokenIdCounter.increment();
     return _tokenIdCounter.current() - 1;
   }

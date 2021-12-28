@@ -150,12 +150,20 @@ interface ILordArenaCharacter is IERC165Upgradeable {
     bytes calldata data
   ) external;
 
+  /**
+   * @dev Safely mint `_characterId` to `_to` with quality `_quality`.
+   *
+   * Requirements:
+   *
+   * - `from` cannot be the zero address.
+   * - `to` cannot be the zero address.
+   * - `_characterId` must exist.
+   * - `_quality` 1 common, 2 rare, 3 rare+, 4 elite, 5 elite+, 6 legendary, 7 legendary+, 8 mythic, 9 mythic+, 10 immortal
+   */
   function safeMint(
     address to,
-    uint256 _charId,
-    uint256 _typeId,
-    uint256 _quality,
-    uint256 _faction
+    uint256 _characterId,
+    uint256 _quality
   ) external returns (uint256);
 
   function getTokenOwners(address _owner, uint256[] memory _selectedIdx) external view returns (CharacterInfo[] memory);
