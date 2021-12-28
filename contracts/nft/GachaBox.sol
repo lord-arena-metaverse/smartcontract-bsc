@@ -167,7 +167,7 @@ contract GachaBox is Initializable, OwnableUpgradeable {
   }
 
   function getEquipmentId() private view returns (uint256 itemId) {
-    uint8[13] memory items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    uint8[12] memory items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     itemId = items[RandomUtil(randomContract).getRandomNumber(items.length - 1)];
   }
 
