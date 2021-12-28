@@ -24,6 +24,14 @@ contract GachaBox is Initializable, OwnableUpgradeable {
   address public treasury;
   address public buyToken;
   address private randomContract;
+  event NewBoxBUSD(
+    uint256 character1NFTId,
+    uint256 character2NFTId,
+    uint256 character3NFTId,
+    uint256 indexed character5NFTId,
+    uint256 indexed equipmentNFTId
+  );
+  event NewBoxLORDA(uint256 indexed character5NFTId);
 
   function initialize() public initializer {
     __Ownable_init();
@@ -166,11 +174,6 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     }
   }
 
-  function getEquipmentId() private view returns (uint256 itemId) {
-    uint8[12] memory items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    itemId = items[RandomUtil(randomContract).getRandomNumber(items.length - 1)];
-  }
-
   function openBoxByBUSD(uint256 _boxId)
     public
     onlyNonContract
@@ -200,8 +203,9 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     character3NFTId = characterNFTIds[2];
     character4NFTId = characterNFTIds[3];
     character5NFTId = getSpecialCharacterNFTId();
-    uint256 itemId = getEquipmentId();
+    uint256 itemId = RandomUtil(randomContract).getRandomNumber(12);
     equipmentNFTId = ILordArenaEquipment(lordArenaItem).safeMint(msg.sender, itemId, 4);
+    emit NewBoxBUSD(character1NFTId, character2NFTId, character3NFTId, character5NFTId, equipmentNFTId);
   }
 
   function openBoxByLORDA(uint256 _boxId) public onlyNonContract returns (uint256 characterNFTId) {
@@ -211,5 +215,6 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     IERC20Upgradeable(boxConfig[_boxId].currency).transferFrom(msg.sender, treasury, boxConfig[_boxId].price);
     (uint256 characterId, uint256 qualityId) = genCharacterIdByLORDA();
     characterNFTId = ILordArenaCharacter(lordArenaCharacter).safeMint(msg.sender, characterId, qualityId);
+    emit NewBoxLORDA(characterNFTId);
   }
 }
