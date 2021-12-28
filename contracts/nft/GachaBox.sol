@@ -63,32 +63,49 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     boxConfig[_boxId].maxRewardCardNumber = _maxRewardCardNumber;
   }
 
-  function getCharacterNFTId(uint256[4] memory ignoreIds)
-    public
-    returns (uint256 characterNFTId, uint256 characterIdx)
-  {
+  function getCharacterNFTId() public returns (uint256[4] memory characterNFTIds) {
     uint8[13] memory characters = [8, 9, 10, 11, 20, 21, 22, 31, 32, 33, 41, 42, 43];
     uint8[2] memory qualities = [2, 3];
+    uint256 characterIdQuality;
 
-    for (uint8 i = 0; i < ignoreIds.length; i++) {
-      if (ignoreIds[i] > 0 && ignoreIds[i] <= 13) {
-        delete characters[ignoreIds[i] - 1];
+    for (uint8 i = 0; i < 4; i++) {
+      uint256 characterIdx = RandomUtil(randomContract).getRandomNumber(characters.length - i);
+      characters[characters.length - i] = characters[characterIdx];
+
+      uint256 pctRnd = RandomUtil(randomContract).getRandomNumber(100);
+      if (pctRnd <= 60) {
+        characterIdQuality = qualities[0];
+      } else {
+        characterIdQuality = qualities[1];
       }
-    }
 
-    characterIdx = RandomUtil(randomContract).getRandomNumber(characters.length - 1);
-    uint256 characterId = characters[characterIdx];
-    uint256 characterIdQuality = qualities[RandomUtil(randomContract).getRandomNumber(qualities.length - 1)];
-    characterNFTId = ILordArenaCharacter(lordArenaCharacter).safeMint(msg.sender, characterId, characterIdQuality);
+      uint256 characterNFTId =
+        ILordArenaCharacter(lordArenaCharacter).safeMint(msg.sender, characters[characterIdx], characterIdQuality);
+      characterNFTIds[i] = characterNFTId;
+    }
   }
 
   function getSpecialCharacterNFTId() public returns (uint256) {
     uint8[26] memory characters =
       [1, 2, 3, 4, 5, 6, 14, 15, 16, 17, 18, 19, 25, 26, 27, 28, 29, 30, 36, 37, 38, 39, 40, 47, 48, 49];
     uint8[6] memory qualities = [5, 6, 7, 8, 9, 10];
+    uint256 characterIdQuality;
+
+    uint256 pctRnd = RandomUtil(randomContract).getRandomNumber(1000);
+    if (pctRnd <= 5) {
+      uint256 highRnd = RandomUtil(randomContract).getRandomNumber(2);
+      characterIdQuality = highRnd == 1 ? qualities[4] : qualities[5];
+    } else if (pctRnd > 5 && pctRnd <= 10) {
+      characterIdQuality = qualities[3];
+    } else if (pctRnd > 10 && pctRnd <= 30) {
+      characterIdQuality = qualities[2];
+    } else if (pctRnd > 30 && pctRnd <= 150) {
+      characterIdQuality = qualities[1];
+    } else {
+      characterIdQuality = qualities[0];
+    }
 
     uint256 characterId = characters[RandomUtil(randomContract).getRandomNumber(characters.length - 1)];
-    uint256 characterIdQuality = qualities[RandomUtil(randomContract).getRandomNumber(qualities.length - 1)];
     uint256 characterNFTId =
       ILordArenaCharacter(lordArenaCharacter).safeMint(msg.sender, characterId, characterIdQuality);
     return characterNFTId;
@@ -105,17 +122,16 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     )
   {
     // random 4 character with quality rare and rare+
-    uint256[4] memory ignoreIds;
-    (character1NFTId, ignoreIds[0]) = getCharacterNFTId(ignoreIds);
-    (character2NFTId, ignoreIds[1]) = getCharacterNFTId(ignoreIds);
-    (character3NFTId, ignoreIds[2]) = getCharacterNFTId(ignoreIds);
-    (character4NFTId, ignoreIds[3]) = getCharacterNFTId(ignoreIds);
-    // random 1 special character with quality gte elite+
+    uint256[4] memory characterNFTIds = getCharacterNFTId();
+    character1NFTId = characterNFTIds[0];
+    character2NFTId = characterNFTIds[1];
+    character3NFTId = characterNFTIds[2];
+    character4NFTId = characterNFTIds[3];
     character5NFTId = getSpecialCharacterNFTId();
   }
 
   function genCharacterByBUSD() public returns (uint256) {
-    uint8[39] memory characters =
+    uint8[36] memory characters =
       [
         1,
         2,
@@ -123,13 +139,10 @@ contract GachaBox is Initializable, OwnableUpgradeable {
         4,
         5,
         6,
-        7,
         8,
         9,
         10,
         11,
-        12,
-        13,
         14,
         15,
         16,
@@ -139,8 +152,6 @@ contract GachaBox is Initializable, OwnableUpgradeable {
         20,
         21,
         22,
-        23,
-        24,
         25,
         26,
         27,
@@ -150,12 +161,14 @@ contract GachaBox is Initializable, OwnableUpgradeable {
         31,
         32,
         33,
-        34,
-        35,
         36,
         37,
         38,
-        39
+        39,
+        40,
+        41,
+        42,
+        43
       ];
     uint8[3] memory qualities = [2, 3, 4]; // 1 common, 2 rare, 3 rare+, 4 elite, 5 elite+, 6 legendary, 7 legendary+, 8 mythic, 9 mythic+, 10
     uint256 characterId = characters[RandomUtil(randomContract).getRandomNumber(characters.length - 1)];

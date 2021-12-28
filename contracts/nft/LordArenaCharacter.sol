@@ -26,9 +26,7 @@ contract LordArenaCharacter is
     uint256 nftID;
     uint256 level;
     uint256 characterID;
-    uint256 typeID; // 1 str, 2 agi, 3 intel
     uint256 quality; // 1 common, 2 rare, 3 rare+, 4 elite, 5 elite+, 6 legendary, 7 legendary+, 8 mythic, 9 mythic+, 10 immortal
-    uint256 faction; // 1 last remnants, 2 lost faith, 3 quite storm, 4 metal march, 5 awaken ember, 6 none
   }
 
   mapping(uint256 => CharacterInfo) public properties;
