@@ -52,17 +52,11 @@ interface ILordArenaEquipment is IERC165Upgradeable {
    * Emits a {Transfer} event.
    */
 
-  struct EquipmentInfo {
+  struct CharacterInfo {
     uint256 nftID;
+    uint256 level;
     uint256 equipmentID;
-    uint256 attack;
-    uint256 maxHP;
-    uint256 defense;
-    uint256 accuracy;
-    uint256 movementSpeed;
-    uint256 dodge;
-    uint256 hpRegeneration;
-    uint256 criticalChance;
+    uint256 quality; // 1 common, 2 rare, 3 rare+, 4 elite, 5 elite+, 6 legendary, 7 legendary+, 8 mythic, 9 mythic+, 10 immortal
   }
 
   function safeTransferFrom(
@@ -154,13 +148,23 @@ interface ILordArenaEquipment is IERC165Upgradeable {
     bytes calldata data
   ) external;
 
+  /**
+   * @dev Safely mint `_characterId` to `_to` with quality `_quality`.
+   *
+   * Requirements:
+   *
+   * - `from` cannot be the zero address.
+   * - `to` cannot be the zero address.
+   * - `_characterId` must exist.
+   * - `_quality` 1 common, 2 rare, 3 rare+, 4 elite, 5 elite+, 6 legendary, 7 legendary+, 8 mythic, 9 mythic+, 10 immortal
+   */
   function safeMint(
     address to,
-    uint256 _charId,
-    uint256 _typeID
+    uint256 _equipmentId,
+    uint256 _quality
   ) external returns (uint256);
 
-  function getTokenOwners(address _owner, uint256[] memory _selectedIdx) external view returns (EquipmentInfo[] memory);
+  function getTokenOwners(address _owner, uint256[] memory _selectedIdx) external view returns (CharacterInfo[] memory);
 
   function tokensOfOwners(address _owner, uint256 index) external view returns (uint256 tokenId);
 }

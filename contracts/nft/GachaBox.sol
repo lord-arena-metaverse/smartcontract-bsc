@@ -4,7 +4,7 @@ import "../dependencies/open-zeppelin/proxy/utils/Initializable.sol";
 import "../dependencies/open-zeppelin/token/ERC20/IERC20Upgradeable.sol";
 import "../dependencies/open-zeppelin/access/OwnableUpgradeable.sol";
 import "../interfaces/ILordArenaCharacter.sol";
-import "../interfaces/ILordArenaItem.sol";
+import "../interfaces/ILordArenaEquipment.sol";
 import "../utils/RandomUtil.sol";
 
 contract GachaBox is Initializable, OwnableUpgradeable {
@@ -166,6 +166,11 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     }
   }
 
+  function getEquipmentId() private view returns (uint256 itemId) {
+    uint8[13] memory items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    itemId = items[RandomUtil(randomContract).getRandomNumber(items.length - 1)];
+  }
+
   function openBoxByBUSD(uint256 _boxId)
     public
     onlyNonContract
@@ -174,7 +179,8 @@ contract GachaBox is Initializable, OwnableUpgradeable {
       uint256 character2NFTId,
       uint256 character3NFTId,
       uint256 character4NFTId,
-      uint256 character5NFTId
+      uint256 character5NFTId,
+      uint256 equipmentNFTId
     )
   {
     require(boxConfig[_boxId].totalSold <= boxConfig[_boxId].quota, "Box is full");
@@ -194,6 +200,8 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     character3NFTId = characterNFTIds[2];
     character4NFTId = characterNFTIds[3];
     character5NFTId = getSpecialCharacterNFTId();
+    uint256 itemId = getEquipmentId();
+    equipmentNFTId = ILordArenaEquipment(lordArenaItem).safeMint(msg.sender, itemId, 4);
   }
 
   function openBoxByLORDA(uint256 _boxId) public onlyNonContract returns (uint256 characterNFTId) {
