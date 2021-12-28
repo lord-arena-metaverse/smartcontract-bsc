@@ -34,20 +34,20 @@ task(`upgrade-${GachaBox}`, `Upgrades the ${GachaBox} contract`)
       throw new Error("INVALID_CHAIN_ID");
     }
 
-    const network = localBRE.network.name as eEthereumNetwork;
-    const proxyAdmin = process.env.PROXY_PRIVATE_KEY || "";
-    const implContract = await deployGachaBox(verify);
-    const encodedInitializeImpl = implContract.interface.encodeFunctionData("initialize", []);
-    const proxyContract = await deployInitializableAdminUpgradeabilityProxy();
-    await proxyContract.deployTransaction.wait();
+    // const network = localBRE.network.name as eEthereumNetwork;
+    // const proxyAdmin = process.env.PROXY_PRIVATE_KEY || "";
+    // const implContract = await deployGachaBox(verify);
+    // const encodedInitializeImpl = implContract.interface.encodeFunctionData("initialize", []);
+    // const proxyContract = await deployInitializableAdminUpgradeabilityProxy();
+    // await proxyContract.deployTransaction.wait();
 
-    await waitForTx(
-      await proxyContract.functions["initialize(address,address,bytes)"](
-        implContract.address,
-        proxyAdmin,
-        encodedInitializeImpl
-      )
-    );
+    // await waitForTx(
+    //   await proxyContract.functions["initialize(address,address,bytes)"](
+    //     implContract.address,
+    //     proxyAdmin,
+    //     encodedInitializeImpl
+    //   )
+    // );
 
     console.log(`\tFinished ${GachaBox} deployment`);
   });

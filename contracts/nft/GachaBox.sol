@@ -63,8 +63,11 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     boxConfig[_boxId].maxRewardCardNumber = _maxRewardCardNumber;
   }
 
-  function getCharacterNFTId(uint256[4] memory ignoreIds) public returns (uint256) {
-    uint8[13] memory characters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  function getCharacterNFTId(uint256[4] memory ignoreIds)
+    public
+    returns (uint256 characterNFTId, uint256 characterIdx)
+  {
+    uint8[13] memory characters = [8, 9, 10, 11, 20, 21, 22, 31, 32, 33, 41, 42, 43];
     uint8[2] memory qualities = [2, 3];
 
     for (uint8 i = 0; i < ignoreIds.length; i++) {
@@ -73,16 +76,15 @@ contract GachaBox is Initializable, OwnableUpgradeable {
       }
     }
 
-    uint256 characterId = characters[RandomUtil(randomContract).getRandomNumber(characters.length - 1)];
+    characterIdx = RandomUtil(randomContract).getRandomNumber(characters.length - 1);
+    uint256 characterId = characters[characterIdx];
     uint256 characterIdQuality = qualities[RandomUtil(randomContract).getRandomNumber(qualities.length - 1)];
-    uint256 characterNFTId =
-      ILordArenaCharacter(lordArenaCharacter).safeMint(msg.sender, characterId, characterIdQuality);
-    return characterNFTId;
+    characterNFTId = ILordArenaCharacter(lordArenaCharacter).safeMint(msg.sender, characterId, characterIdQuality);
   }
 
   function getSpecialCharacterNFTId() public returns (uint256) {
     uint8[26] memory characters =
-      [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39];
+      [1, 2, 3, 4, 5, 6, 14, 15, 16, 17, 18, 19, 25, 26, 27, 28, 29, 30, 36, 37, 38, 39, 40, 47, 48, 49];
     uint8[6] memory qualities = [5, 6, 7, 8, 9, 10];
 
     uint256 characterId = characters[RandomUtil(randomContract).getRandomNumber(characters.length - 1)];
@@ -95,26 +97,21 @@ contract GachaBox is Initializable, OwnableUpgradeable {
   function genCharacters()
     public
     returns (
-      uint256,
-      uint256,
-      uint256,
-      uint256,
-      uint256
+      uint256 character1NFTId,
+      uint256 character2NFTId,
+      uint256 character3NFTId,
+      uint256 character4NFTId,
+      uint256 character5NFTId
     )
   {
     // random 4 character with quality rare and rare+
     uint256[4] memory ignoreIds;
-    uint256 character1NFTId = getCharacterNFTId(ignoreIds);
-    ignoreIds[0] = character1NFTId;
-    uint256 character2NFTId = getCharacterNFTId(ignoreIds);
-    ignoreIds[1] = character2NFTId;
-    uint256 character3NFTId = getCharacterNFTId(ignoreIds);
-    ignoreIds[2] = character3NFTId;
-    uint256 character4NFTId = getCharacterNFTId(ignoreIds);
+    (character1NFTId, ignoreIds[0]) = getCharacterNFTId(ignoreIds);
+    (character2NFTId, ignoreIds[1]) = getCharacterNFTId(ignoreIds);
+    (character3NFTId, ignoreIds[2]) = getCharacterNFTId(ignoreIds);
+    (character4NFTId, ignoreIds[3]) = getCharacterNFTId(ignoreIds);
     // random 1 special character with quality gte elite+
-    uint256 character5NFTId = getSpecialCharacterNFTId();
-
-    return (character1NFTId, character2NFTId, character3NFTId, character4NFTId, character5NFTId);
+    character5NFTId = getSpecialCharacterNFTId();
   }
 
   function genCharacterByBUSD() public returns (uint256) {
