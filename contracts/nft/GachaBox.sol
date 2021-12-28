@@ -70,14 +70,16 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     return (typeIds[_characterId - 1], factionIds[_characterId - 1]);
   }
 
-  function getCharacterNFTId(uint256 ignoreId) public returns (uint256) {
+  function getCharacterNFTId(uint256[4] memory ignoreIds) public returns (uint256) {
     uint8[13] memory characters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     uint8[2] memory qualities = [2, 3];
     uint256 typeId;
     uint256 factionId;
 
-    if (ignoreId > 0 && ignoreId <= 13) {
-      delete characters[ignoreId - 1];
+    for (uint8 i = 0; i < ignoreIds.length; i++) {
+      if (ignoreIds[i] > 0 && ignoreIds[i] <= 13) {
+        delete characters[ignoreIds[i] - 1];
+      }
     }
 
     uint256 characterId = RandomUtil(randomContract).getRandomNumber(characters.length - 1);
@@ -114,10 +116,14 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     )
   {
     // random 4 character with quality rare and rare+
-    uint256 character1NFTId = getCharacterNFTId(0);
-    uint256 character2NFTId = getCharacterNFTId(character1NFTId);
-    uint256 character3NFTId = getCharacterNFTId(character2NFTId);
-    uint256 character4NFTId = getCharacterNFTId(character3NFTId);
+    uint256[4] memory ignoreIds;
+    uint256 character1NFTId = getCharacterNFTId(ignoreIds);
+    ignoreIds[0] = character1NFTId;
+    uint256 character2NFTId = getCharacterNFTId(ignoreIds);
+    ignoreIds[1] = character2NFTId;
+    uint256 character3NFTId = getCharacterNFTId(ignoreIds);
+    ignoreIds[2] = character3NFTId;
+    uint256 character4NFTId = getCharacterNFTId(ignoreIds);
 
     // random 1 special character with quality gte elite+
     uint256 character5NFTId = getSpecialCharacterNFTId();
