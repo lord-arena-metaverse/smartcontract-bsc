@@ -209,6 +209,5 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     boxConfig[_boxId].totalSold += _boxId;
     IERC20Upgradeable(boxConfig[_boxId].currency).transferFrom(msg.sender, treasury, boxConfig[_boxId].price);
     characterNFTId = genCharacterByLORDA();
-    return characterNFTId;
   }
 }
