@@ -1,16 +1,18 @@
-import {tEthereumAddress, eContractid} from './types';
-import {getFirstSigner} from './contracts-getters';
-import { InitializableAdminUpgradeabilityProxyFactory, LordArenaLpStakingFactory, LordArenaStakingFactory, LordArenaTokenDevFactory} from '../types';
-import {withSaveAndVerify} from './contracts-helpers';
-import {waitForTx} from './misc-utils';
-import {Interface} from 'ethers/lib/utils';
+import { tEthereumAddress, eContractid } from "./types";
+import { getFirstSigner } from "./contracts-getters";
+import {
+  InitializableAdminUpgradeabilityProxyFactory,
+  LordArenaLpStakingFactory,
+  LordArenaStakingFactory,
+  LordArenaTokenDevFactory,
+  GachaBoxFactory,
+} from "../types";
+import { withSaveAndVerify } from "./contracts-helpers";
+import { waitForTx } from "./misc-utils";
+import { Interface } from "ethers/lib/utils";
 
-
-
-export const deployInitializableAdminUpgradeabilityProxy = async (
-  verify?: boolean,
-) => {
-  const args: [] =[];
+export const deployInitializableAdminUpgradeabilityProxy = async (verify?: boolean) => {
+  const args: [] = [];
   return withSaveAndVerify(
     await new InitializableAdminUpgradeabilityProxyFactory(await getFirstSigner()).deploy(...args),
     eContractid.InitializableAdminUpgradeabilityProxy,
@@ -19,10 +21,8 @@ export const deployInitializableAdminUpgradeabilityProxy = async (
   );
 };
 
-export const deployLordArenaTokenDev = async (
-  verify?: boolean,
-) => {
-  const args: [] =[];
+export const deployLordArenaTokenDev = async (verify?: boolean) => {
+  const args: [] = [];
   return withSaveAndVerify(
     await new LordArenaTokenDevFactory(await getFirstSigner()).deploy(...args),
     eContractid.LordArenaTokenDev,
@@ -31,10 +31,8 @@ export const deployLordArenaTokenDev = async (
   );
 };
 
-export const deployLordArenaStaking = async (
-  verify?: boolean,
-) => {
-  const args: [] =[];
+export const deployLordArenaStaking = async (verify?: boolean) => {
+  const args: [] = [];
   return withSaveAndVerify(
     await new LordArenaStakingFactory(await getFirstSigner()).deploy(...args),
     eContractid.LordArenaStaking,
@@ -43,10 +41,8 @@ export const deployLordArenaStaking = async (
   );
 };
 
-export const deployLordArenaLPStaking = async (
-  verify?: boolean,
-) => {
-  const args: [] =[];
+export const deployLordArenaLPStaking = async (verify?: boolean) => {
+  const args: [] = [];
   return withSaveAndVerify(
     await new LordArenaLpStakingFactory(await getFirstSigner()).deploy(...args),
     eContractid.LordArenaLPStaking,
@@ -55,3 +51,12 @@ export const deployLordArenaLPStaking = async (
   );
 };
 
+export const deployGachaBox = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new GachaBoxFactory(await getFirstSigner()).deploy(...args),
+    eContractid.GachaBox,
+    args,
+    verify
+  );
+};

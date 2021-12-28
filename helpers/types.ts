@@ -1,31 +1,32 @@
 export enum eEthereumNetwork {
-  buidlerevm = 'buidlerevm',
-  kovan = 'kovan',
-  ropsten = 'ropsten',
-  main = 'main',
-  coverage = 'coverage',
-  hardhat = 'hardhat',
-  bbtest = 'bbtest',
-  bsc = 'bsc',
+  buidlerevm = "buidlerevm",
+  kovan = "kovan",
+  ropsten = "ropsten",
+  main = "main",
+  coverage = "coverage",
+  hardhat = "hardhat",
+  bbtest = "bbtest",
+  bsc = "bsc",
 }
 
 export enum EthereumNetworkNames {
-  kovan = 'kovan',
-  ropsten = 'ropsten',
-  main = 'main',
+  kovan = "kovan",
+  ropsten = "ropsten",
+  main = "main",
 }
 
 export enum AavePools {
-  proto = 'proto',
-  secondary = 'secondary',
+  proto = "proto",
+  secondary = "secondary",
 }
 
 export enum eContractid {
-  LordArenaTokenDev = 'LordArenaTokenDev',
-  LordArenaStaking = 'LordArenaStaking',
-  LordArenaLPStaking = 'LordArenaLPStaking',
+  LordArenaTokenDev = "LordArenaTokenDev",
+  LordArenaStaking = "LordArenaStaking",
+  LordArenaLPStaking = "LordArenaLPStaking",
+  GachaBox = "GachaBox",
   TransparentUpgradeableProxy = "TransparentUpgradeableProxy",
-  InitializableAdminUpgradeabilityProxy = "InitializableAdminUpgradeabilityProxy"
+  InitializableAdminUpgradeabilityProxy = "InitializableAdminUpgradeabilityProxy",
 }
 
 export type tEthereumAddress = string;
