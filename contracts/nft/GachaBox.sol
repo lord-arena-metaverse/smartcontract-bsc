@@ -117,7 +117,7 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     return characterNFTId;
   }
 
-  function genCharacterByLORDA() public returns (uint256 characterNFTId) {
+  function genCharacterNFTIdByLORDA() public returns (uint256 characterNFTId) {
     uint8[8] memory commonCharacters = [12, 23, 34, 44, 13, 24, 35, 45];
     uint8[13] memory rareCharacters = [10, 41, 20, 31, 9, 43, 22, 32, 11, 42, 21, 33, 8];
     uint8[39] memory eliteCharacters =
@@ -208,6 +208,6 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     require(boxConfig[_boxId].price > 0, "Invalid Box.");
     boxConfig[_boxId].totalSold += _boxId;
     IERC20Upgradeable(boxConfig[_boxId].currency).transferFrom(msg.sender, treasury, boxConfig[_boxId].price);
-    characterNFTId = genCharacterByLORDA();
+    characterNFTId = genCharacterNFTIdByLORDA();
   }
 }
