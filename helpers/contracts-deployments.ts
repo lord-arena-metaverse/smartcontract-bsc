@@ -74,7 +74,7 @@ export const deployLordCharacter = async (verify?: boolean) => {
   );
 };
 
-export const deployLordEquiment = async (verify?: boolean) => {
+export const deployLordEquipment = async (verify?: boolean) => {
   const args: [] = [];
   return withSaveAndVerify(
     await new LordArenaEquipmentFactory(await getFirstSigner()).deploy(...args),
@@ -83,7 +83,6 @@ export const deployLordEquiment = async (verify?: boolean) => {
     verify
   );
 };
-
 
 export const deployRandom = async (verify?: boolean) => {
   const args: [] = [];
