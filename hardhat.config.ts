@@ -25,7 +25,7 @@ const MNEMONIC_PATH = "m/44'/60'/0'/0";
 const MNEMONIC = process.env.MNEMONIC || "";
 // const PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY || "";
 const PRIVATE_KEY = process.env.LOCAL_KEY || "";
-const PRIVATE_PROD_KEY = process.env.DEPLOYER_PROD_PRIVATE_KEY || "";
+const PRIVATE_PROD_KEY = process.env.PRIVATE_PROD_KEY || "";
 
 // Prevent to load scripts before compilation and typechain
 if (!SKIP_LOAD) {

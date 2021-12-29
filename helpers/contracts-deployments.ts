@@ -6,6 +6,9 @@ import {
   LordArenaStakingFactory,
   LordArenaTokenDevFactory,
   GachaBoxFactory,
+  LordArenaCharacterFactory,
+  LordArenaEquipmentFactory,
+  RandomUtilFactory,
 } from "../types";
 import { withSaveAndVerify } from "./contracts-helpers";
 import { waitForTx } from "./misc-utils";
@@ -56,6 +59,37 @@ export const deployGachaBox = async (verify?: boolean) => {
   return withSaveAndVerify(
     await new GachaBoxFactory(await getFirstSigner()).deploy(...args),
     eContractid.GachaBox,
+    args,
+    verify
+  );
+};
+
+export const deployLordCharacter = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new LordArenaCharacterFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordArenaCharacter,
+    args,
+    verify
+  );
+};
+
+export const deployLordEquiment = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new LordArenaEquipmentFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordArenaEquipment,
+    args,
+    verify
+  );
+};
+
+
+export const deployRandom = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new RandomUtilFactory(await getFirstSigner()).deploy(...args),
+    eContractid.RandomUtil,
     args,
     verify
   );
