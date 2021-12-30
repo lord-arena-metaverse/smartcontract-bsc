@@ -29,10 +29,11 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     uint256 character1NFTId,
     uint256 character2NFTId,
     uint256 character3NFTId,
+    uint256 character4NFTId,
     uint256 indexed character5NFTId,
     uint256 indexed equipmentNFTId
   );
-  event NewBoxLORDA(address indexed minter, uint256 indexed character5NFTId);
+  event NewBoxLORDA(address indexed minter, uint256 indexed characterNFTId);
 
   function initialize() public initializer {
     __Ownable_init();
@@ -206,7 +207,15 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     character5NFTId = getSpecialCharacterNFTId();
     uint256 itemId = RandomUtil(randomContract).getRandomNumber(12);
     equipmentNFTId = ILordArenaEquipment(lordArenaItem).safeMint(msg.sender, itemId, 4);
-    emit NewBoxBUSD(msg.sender, character1NFTId, character2NFTId, character3NFTId, character5NFTId, equipmentNFTId);
+    emit NewBoxBUSD(
+      msg.sender,
+      character1NFTId,
+      character2NFTId,
+      character3NFTId,
+      character4NFTId,
+      character5NFTId,
+      equipmentNFTId
+    );
   }
 
   function openBoxByLORDA(uint256 _boxId) public onlyNonContract returns (uint256 characterNFTId) {
