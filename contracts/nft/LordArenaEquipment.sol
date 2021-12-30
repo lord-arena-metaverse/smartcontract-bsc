@@ -41,7 +41,7 @@ contract LordArenaEquipment is
   constructor() initializer {}
 
   function initialize() public initializer {
-    __ERC721_init("Lord Arena Character", "LORDA");
+    __ERC721_init("Lord Arena Item", "LORDAI");
     __ERC721URIStorage_init();
     __Pausable_init();
     __Ownable_init();

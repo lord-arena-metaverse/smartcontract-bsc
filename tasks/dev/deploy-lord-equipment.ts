@@ -7,7 +7,7 @@ import { deployInitializableAdminUpgradeabilityProxy, deployLordEquipment } from
 
 const { LordArenaEquipment } = eContractid;
 
-task(`deploy-${LordArenaEquipment}`, `Deploys the ${LordArenaEquipment} contract`)
+task(`deploy1-${LordArenaEquipment}`, `Deploys the ${LordArenaEquipment} contract`)
   .addFlag("verify", `Verify ${LordArenaEquipment} contract via Etherscan API.`)
   .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
     await localBRE.run("set-DRE");

@@ -10,7 +10,7 @@ import { verifyContract } from "../../helpers/etherscan-verification";
 
 const { LordArenaCharacter } = eContractid;
 
-task(`deploy-${LordArenaCharacter}`, `Deploys the ${LordArenaCharacter} contract`)
+task(`deploy1-${LordArenaCharacter}`, `Deploys the ${LordArenaCharacter} contract`)
   .addFlag("verify", `Verify ${LordArenaCharacter} contract via Etherscan API.`)
   .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
     await localBRE.run("set-DRE");

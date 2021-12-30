@@ -41,7 +41,7 @@ contract LordArenaCharacter is
   constructor() initializer {}
 
   function initialize() public initializer {
-    __ERC721_init("Lord Arena Character", "LORDA");
+    __ERC721_init("Lord Arena Character", "LORDAC");
     __ERC721URIStorage_init();
     __Pausable_init();
     __Ownable_init();
