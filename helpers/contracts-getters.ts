@@ -1,5 +1,5 @@
 import {
-  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory, LordArenaLpStakingFactory, RandomUtilFactory, LordArenaEquipmentFactory, LordArenaCharacterFactory, GachaBoxFactory
+  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory, LordArenaLpStakingFactory, RandomUtilFactory, LordArenaEquipmentFactory, LordArenaCharacterFactory, GachaBoxFactory, LordArenaMarketFactory
 } from '../types';
 import {DRE, getDb} from './misc-utils';
 import {eContractid, tEthereumAddress} from './types';
@@ -62,5 +62,12 @@ export const getGachaBox = async (address?: tEthereumAddress) =>
   await GachaBoxFactory.connect(
     address ||
       (await getDb().get(`${eContractid.GachaBox}.${DRE.network.name}`).value()).address,
+    await getFirstSigner()
+  );
+
+export const getLordMarket = async (address?: tEthereumAddress) =>
+  await LordArenaMarketFactory.connect(
+    address ||
+      (await getDb().get(`${eContractid.LordArenaMarket}.${DRE.network.name}`).value()).address,
     await getFirstSigner()
   );

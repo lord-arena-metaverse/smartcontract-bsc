@@ -18,7 +18,6 @@ contract LordArenaMarket is Initializable, OwnableUpgradeable, ReentrancyGuardUp
 
   mapping(address => bool) public whitelistNFT;
   address public treasury;
-  uint256 public feeRate;
 
   struct MarketItem {
     uint256 itemId;
@@ -53,8 +52,7 @@ contract LordArenaMarket is Initializable, OwnableUpgradeable, ReentrancyGuardUp
   );
 
   // Update config
-  function updateConfig(uint256 _feeRate, address _treasury) public onlyOwner {
-    feeRate = _feeRate;
+  function updateConfig(address _treasury) public onlyOwner {
     treasury = _treasury;
   }
 
@@ -117,7 +115,7 @@ contract LordArenaMarket is Initializable, OwnableUpgradeable, ReentrancyGuardUp
 
   function cancelListingMarket(uint256 itemId) public nonReentrant {
     require(idToMarketItem[itemId].seller == msg.sender, "Invalid seller.");
-    require(idToMarketItem[itemId].owner == address(0), "This item already sold.");
+    require(idToMarketItem[itemId].owner == address(0), "Order might be sold or delisted. Please wait for a few minutes and try again.");
     require(idToMarketItem[itemId].price > 0, "This item already sold.");
     IERC721Upgradeable(idToMarketItem[itemId].nftContract).transferFrom(
       address(this),
@@ -138,7 +136,7 @@ contract LordArenaMarket is Initializable, OwnableUpgradeable, ReentrancyGuardUp
   }
 
   function createMarketSale(uint256 itemId, uint256 _price) public nonReentrant {
-    require(idToMarketItem[itemId].owner == address(0), "This item already sold.");
+    require(idToMarketItem[itemId].owner == address(0), "Order might be sold or delisted. Please wait for a few minutes and try again.");
     require(idToMarketItem[itemId].price > 0, "This item already delisted.");
     require(idToMarketItem[itemId].price == _price, "Invalid Price.");
     uint256 price = idToMarketItem[itemId].price;

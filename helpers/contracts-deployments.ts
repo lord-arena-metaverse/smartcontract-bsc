@@ -9,6 +9,7 @@ import {
   LordArenaCharacterFactory,
   LordArenaEquipmentFactory,
   RandomUtilFactory,
+  LordArenaMarketFactory,
 } from "../types";
 import { withSaveAndVerify } from "./contracts-helpers";
 import { waitForTx } from "./misc-utils";
@@ -89,6 +90,16 @@ export const deployRandom = async (verify?: boolean) => {
   return withSaveAndVerify(
     await new RandomUtilFactory(await getFirstSigner()).deploy(...args),
     eContractid.RandomUtil,
+    args,
+    verify
+  );
+};
+
+export const deployMarket = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new LordArenaMarketFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordArenaMarket,
     args,
     verify
   );
