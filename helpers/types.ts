@@ -31,6 +31,8 @@ export enum eContractid {
   LordArenaMarket = "LordArenaMarket",
   TransparentUpgradeableProxy = "TransparentUpgradeableProxy",
   InitializableAdminUpgradeabilityProxy = "InitializableAdminUpgradeabilityProxy",
+  LordArenaClaimTokenDev = "LordArenaClaimTokenDev",
+  LordArenaWallet = "LordArenaWallet",
 }
 
 export type tEthereumAddress = string;

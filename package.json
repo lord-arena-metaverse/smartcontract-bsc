@@ -22,7 +22,9 @@
     "ci:clean": "rm -rf ./artifacts ./cache ./types ./coverage*",
     "migrate:dev": "npm run compile:force:quiet && hardhat migrate:dev",
     "types-gen": "hardhat typechain",
-    "prepublishOnly": "npm run compile"
+    "prepublishOnly": "npm run compile",
+    "deploy:gachabox": "npm run hardhat -- deploy-gachabox-first --network bbtest --verify",
+    "upgrade:gachabox": "npm run hardhat -- upgrade-gachabox --network bbtest --verify"
   },
   "devDependencies": {
     "@nomiclabs/buidler-waffle": "2.0.0",
