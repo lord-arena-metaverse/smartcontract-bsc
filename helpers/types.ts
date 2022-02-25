@@ -28,6 +28,7 @@ export enum eContractid {
   LordArenaCharacter = "LordArenaCharacter",
   LordArenaEquipment = "LordArenaEquipment",
   RandomUtil = "RandomUtil",
+  LORDAVesting = 'LORDAVesting',
   LordArenaMarket = "LordArenaMarket",
   TransparentUpgradeableProxy = "TransparentUpgradeableProxy",
   InitializableAdminUpgradeabilityProxy = "InitializableAdminUpgradeabilityProxy",
