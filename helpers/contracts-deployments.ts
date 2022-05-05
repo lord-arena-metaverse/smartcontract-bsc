@@ -10,6 +10,7 @@ import {
   LordArenaEquipmentFactory,
   RandomUtilFactory,
   LordArenaMarketFactory,
+  LordaWalletFactory
 } from "../types";
 import { withSaveAndVerify } from "./contracts-helpers";
 import { waitForTx } from "./misc-utils";
@@ -100,6 +101,16 @@ export const deployMarket = async (verify?: boolean) => {
   return withSaveAndVerify(
     await new LordArenaMarketFactory(await getFirstSigner()).deploy(...args),
     eContractid.LordArenaMarket,
+    args,
+    verify
+  );
+};
+
+export const deployLordaWallet = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new LordaWalletFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordaWallet,
     args,
     verify
   );

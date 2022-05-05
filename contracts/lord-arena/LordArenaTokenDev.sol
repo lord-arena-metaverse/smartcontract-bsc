@@ -8,7 +8,7 @@ import "../dependencies/open-zeppelin/proxy/utils/Initializable.sol";
 contract LordArenaTokenDev is Initializable, ERC20Upgradeable, OwnableUpgradeable {
     
     constructor () initializer {
-        __ERC20_init("Lord Arena Token Dev", "LORDA");
+        __ERC20_init("Lorda Dimond", "LORDAD");
         __Ownable_init();
     }
 

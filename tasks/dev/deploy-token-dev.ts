@@ -26,7 +26,7 @@ task(`deploy-${LordArenaTokenDev}`, `Deploys the ${LordArenaTokenDev} contract`)
 
     const network = localBRE.network.name as eEthereumNetwork;
 
-    const lordArenaTokenDevImpl = await deployLordArenaTokenDev(verify);
+    const lordArenaTokenDevImpl = await deployLordArenaTokenDev(true);
 
     console.log(`\tFinished ${LordArenaTokenDev} deployment`);
   });

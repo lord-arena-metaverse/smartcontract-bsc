@@ -123,7 +123,8 @@ const buidlerConfig: HardhatUserConfig = {
       // url: 'https://bsc-dataseed.binance.org/',
       chainId: 97,
       // chainId: 56,
-      gasPrice: DEFAULT_GAS_PRICE,
+      gasPrice: "auto",
+      gas: "auto",
       accounts: [PRIVATE_KEY],
     },
     bsc: {

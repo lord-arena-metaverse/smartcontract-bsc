@@ -1,6 +1,6 @@
 import { task } from "hardhat/config";
 import "@openzeppelin/hardhat-upgrades";
-import { eContractid, eEthereumNetwork } from "../../helpers/types";
+import { AddressConfig, eBBTestAddress, eBSCAddress, eContractid, eEthereumNetwork } from "../../helpers/types";
 import { getContract, registerContractInJsonDb } from "../../helpers/contracts-helpers";
 import { getGachaBox, getProxy, getRandomUtil } from "../../helpers/contracts-getters";
 import { deployGachaBox, deployInitializableAdminUpgradeabilityProxy } from "../../helpers/contracts-deployments";
@@ -20,28 +20,77 @@ task(`deploy-${GachaBox}`, `Deploys the ${GachaBox} contract`)
     }
 
     const network = localBRE.network.name as eEthereumNetwork;
+    
+    let globalAddress : AddressConfig = eBBTestAddress;
+    if (network == eEthereumNetwork.bbtest) {
+      globalAddress = eBBTestAddress;
+    }
+    else if (network == eEthereumNetwork.bsc) {
+      globalAddress = eBSCAddress;
+    }
 
-    const proxyAdmin = "0xA053199b45dC7b1f2c666Ad579568D2e27238e44";
-
-    // const contractImpl = await deployGachaBox(verify);
-    // await verifyContract(GachaBox, "0x6c3D9CdFBe7C51e9dB5ce18FCF4bDdb7a05ae53b", [])
-    const contractImpl = await getGachaBox("0x1E91e8013414283B0387B0bC4046532377D1cBA9");
+    const contractImpl = await deployGachaBox(verify);
 
     // @ts-ignore
-    // const encodedInitializeStaking = contractImpl.interface.encodeFunctionData('initialize', []);
+    const encodedInitializeStaking = contractImpl.interface.encodeFunctionData('initialize', []);
 
-    // const proxyContract = await deployInitializableAdminUpgradeabilityProxy();
-    // await proxyContract.deployTransaction.wait();
-    // const proxyContract = await getProxy("0x16B23ba46810e3cD818486919941971b335Cf4f4");
+    const proxyContract = await deployInitializableAdminUpgradeabilityProxy();
+    await proxyContract.deployTransaction.wait();
 
-    // await waitForTx(
-    //     await proxyContract.functions['initialize(address,address,bytes)'](
-    //       contractImpl.address,
-    //       proxyAdmin,
-    //       encodedInitializeStaking
-    //     )
-    //   );
+    await waitForTx(
+        await proxyContract.functions['initialize(address,address,bytes)'](
+          contractImpl.address,
+          globalAddress.ProxyAdmin,
+          encodedInitializeStaking
+        )
+      );
 
-    const proxyContract = await getProxy("0x3e3A9Ed909319c7780232Faf8bee7b3A9748Fd08");
-    await proxyContract.upgradeTo(contractImpl.address);
+    // const proxyContract = await getProxy("0x937C06D619bf9367Bc18f6E8D446105Ef2879B84");
+    // await proxyContract.upgradeTo(contractImpl.address);
+  });
+
+
+task(`config-${GachaBox}`, `Deploys the ${GachaBox} contract`)
+  .addFlag("verify", "Verify Lord Arena contract via Etherscan API.")
+  .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
+    await localBRE.run("set-DRE");
+
+    if (!localBRE.network.config.chainId) {
+      throw new Error("INVALID_CHAIN_ID");
+    }
+
+    const network = localBRE.network.name as eEthereumNetwork;
+    
+    let globalAddress : AddressConfig = eBBTestAddress;
+    let boxConfig: any[] = [];
+    if (network == eEthereumNetwork.bbtest) {
+      globalAddress = eBBTestAddress;
+    }
+    else if (network == eEthereumNetwork.bsc) {
+      globalAddress = eBSCAddress;
+    }
+    boxConfig = [
+      [
+        "7200",
+        "20000000000000000000000",
+        "1",
+        "7200",
+        globalAddress.LORDAToken
+      ],
+      [
+        "800",
+        "150000000000000000000",
+        "2",
+        "800",
+        globalAddress.LORDAToken
+      ]
+    ]
+    const contract = await getGachaBox(globalAddress.GachaBox);
+
+    // Set Treasurry
+    console.log(`\t\t Update Config Hash : ${(await contract.updateConfig(globalAddress.LordArenaCharacter, globalAddress.LordArenaEquipment, globalAddress.Treasury, globalAddress.RandomUtil)).hash} `);  
+    for (let index = 0; index < boxConfig.length; index++) {
+      const element = boxConfig[index];
+      console.log(`\t\t Update Box ${element[2]} Hash : ${(await contract.updateBoxConfig(element[0], element[1], element[2], element[3], element[4])).hash} `);  
+    }
   });

@@ -1,6 +1,6 @@
 import { task } from "hardhat/config";
 import "@openzeppelin/hardhat-upgrades";
-import { eContractid, eEthereumNetwork } from "../../helpers/types";
+import { AddressConfig, eBBTestAddress, eBSCAddress, eContractid, eEthereumNetwork } from "../../helpers/types";
 import { getContract, registerContractInJsonDb } from "../../helpers/contracts-helpers";
 import { getLordCharacter, getProxy, getRandomUtil } from "../../helpers/contracts-getters";
 import { deployGachaBox, deployInitializableAdminUpgradeabilityProxy, deployLordCharacter } from "../../helpers/contracts-deployments";
@@ -20,12 +20,16 @@ task(`deploy-${LordArenaCharacter}`, `Deploys the ${LordArenaCharacter} contract
     }
 
     const network = localBRE.network.name as eEthereumNetwork;
+    
+    let globalAddress : AddressConfig = eBBTestAddress;
+    if (network == eEthereumNetwork.bbtest) {
+      globalAddress = eBBTestAddress;
+    }
+    else if (network == eEthereumNetwork.bsc) {
+      globalAddress = eBSCAddress;
+    }
 
-    const proxyAdmin = "0xA053199b45dC7b1f2c666Ad579568D2e27238e44";
-
-    // const contractImpl = await deployLordCharacter(verify);
-    // await verifyContract(RandomUtil, "0x4596252b9e5876a48d34A257fF3acEFBD935158B", [])
-    const contractImpl = await getLordCharacter("0x2bDB4030ca6F0ff65659Be7b82B959B13b0160e9");
+    const contractImpl = await deployLordCharacter(verify);
 
     // @ts-ignore
     const encodedInitializeStaking = contractImpl.interface.encodeFunctionData('initialize', []);
@@ -37,11 +41,79 @@ task(`deploy-${LordArenaCharacter}`, `Deploys the ${LordArenaCharacter} contract
     await waitForTx(
         await proxyContract.functions['initialize(address,address,bytes)'](
           contractImpl.address,
-          proxyAdmin,
+          globalAddress.ProxyAdmin,
           encodedInitializeStaking
         )
       );
 
     // const proxyContract = await getProxy("0xC102bEB6add3404b43eA0a87dC002a975d95ffC9");
     // await proxyContract.upgradeTo(contractImpl.address);
+  });
+
+task(`config-${LordArenaCharacter}`, `Deploys the ${LordArenaCharacter} contract`)
+  .addFlag("verify", "Verify Lord Arena contract via Etherscan API.")
+  .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
+    await localBRE.run("set-DRE");
+
+    if (!localBRE.network.config.chainId) {
+      throw new Error("INVALID_CHAIN_ID");
+    }
+
+    const network = localBRE.network.name as eEthereumNetwork;
+    
+    let globalAddress : AddressConfig = eBBTestAddress;
+    let whiteListMinter: any[] = [];
+    if (network == eEthereumNetwork.bbtest) {
+      globalAddress = eBBTestAddress;
+      whiteListMinter = [
+        [globalAddress.GachaBox, true, "GachaBox"],
+      ]
+    }
+    else if (network == eEthereumNetwork.bsc) {
+      globalAddress = eBSCAddress;
+    }
+
+    const contract = await getLordCharacter(globalAddress.LordArenaCharacter);
+    // Set whitelist 
+    console.log(`\t*************** Setting whitelist minter ***************** `); 
+    for (let index = 0; index < whiteListMinter.length; index++) {
+      const element = whiteListMinter[index];
+      console.log(`\t\t Setting whitelist minter for ${element[2]} - ${element[0]} : ${element[1]} `);  
+      let transaction = await contract.updateWhitelist(element[0], element[1]);
+      console.log(`\t\t Hash : ${transaction.hash} `);  
+    }
+  });
+
+
+task(`view-${LordArenaCharacter}`, `Deploys the ${LordArenaCharacter} contract`)
+  .addFlag("verify", "Verify Lord Arena contract via Etherscan API.")
+  .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
+    await localBRE.run("set-DRE");
+
+    if (!localBRE.network.config.chainId) {
+      throw new Error("INVALID_CHAIN_ID");
+    }
+
+    const network = localBRE.network.name as eEthereumNetwork;
+    
+    let globalAddress : AddressConfig = eBBTestAddress;
+    let whiteListMinter: any[] = [];
+    if (network == eEthereumNetwork.bbtest) {
+      globalAddress = eBBTestAddress;
+      whiteListMinter = [
+        [globalAddress.GachaBox, true, "GachaBox"],
+      ]
+    }
+    else if (network == eEthereumNetwork.bsc) {
+      globalAddress = eBSCAddress;
+    }
+
+    const contract = await getLordCharacter(globalAddress.LordArenaCharacter);
+    // View status of minter
+    console.log(`\t Setting whitelist`);  
+    for (let index = 0; index < whiteListMinter.length; index++) {
+      const element = whiteListMinter[index];
+      let info = await contract.whitelistMinter(element[0]);
+      console.log(`\t\t ${element[1]} - ${element[0]} : ${info}`);  
+    }
   });
