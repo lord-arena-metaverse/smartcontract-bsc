@@ -26,6 +26,7 @@ const MNEMONIC = process.env.MNEMONIC || "";
 // const PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY || "";
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 const PRIVATE_PROD_KEY = process.env.PRIVATE_PROD_KEY || "";
+const PROXY_PRIVATE_KEY = process.env.PROXY_PRIVATE_KEY || "";
 
 // Prevent to load scripts before compilation and typechain
 if (!SKIP_LOAD) {
@@ -130,7 +131,8 @@ const buidlerConfig: HardhatUserConfig = {
     bsc: {
       url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
-      gasPrice: DEFAULT_GAS_PRICE,
+      gasPrice: "auto",
+      gas: "auto",
       accounts: [PRIVATE_PROD_KEY],
     },
     hardhat: {

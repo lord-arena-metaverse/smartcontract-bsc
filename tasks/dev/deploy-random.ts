@@ -3,7 +3,11 @@ import "@openzeppelin/hardhat-upgrades";
 import { AddressConfig, eBBTestAddress, eBSCAddress, eContractid, eEthereumNetwork } from "../../helpers/types";
 import { getContract, registerContractInJsonDb } from "../../helpers/contracts-helpers";
 import { getProxy, getRandomUtil } from "../../helpers/contracts-getters";
-import { deployGachaBox, deployInitializableAdminUpgradeabilityProxy, deployRandom } from "../../helpers/contracts-deployments";
+import {
+  deployGachaBox,
+  deployInitializableAdminUpgradeabilityProxy,
+  deployRandom,
+} from "../../helpers/contracts-deployments";
 
 import { waitForTx } from "../../helpers/misc-utils";
 import { verifyContract } from "../../helpers/etherscan-verification";
@@ -37,7 +41,7 @@ task(`deploy-${RandomUtil}`, `Deploys the ${RandomUtil} contract`)
     const contractImpl = await deployRandom(verify);
 
     // @ts-ignore
-    const encodedInitializeStaking = contractImpl.interface.encodeFunctionData('initialize', []);
+    const encodedInitializeStaking = contractImpl.interface.encodeFunctionData("initialize", []);
 
     const proxyContract = await deployInitializableAdminUpgradeabilityProxy();
     await proxyContract.deployTransaction.wait();

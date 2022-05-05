@@ -109,67 +109,8 @@ contract GachaBox is Initializable, OwnableUpgradeable {
     return (characterId, qualityId);
   }
 
-  function genCharacterIdByLORDA() public view returns (uint256 characterId, uint256 qualityId) {
-    uint8[8] memory commonCharacters = [12, 23, 34, 44, 13, 24, 35, 45];
-    uint8[13] memory rareCharacters = [10, 41, 20, 31, 9, 43, 22, 32, 11, 42, 21, 33, 8];
-    uint8[39] memory eliteCharacters =
-      [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        8,
-        9,
-        10,
-        11,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
-        22,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        36,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        43,
-        47,
-        48,
-        49
-      ];
-
-    uint256 pctRnd = RandomUtil(randomContract).getRandomNumber(100);
-    if (pctRnd <= 8) {
-      qualityId = 4;
-      characterId = eliteCharacters[RandomUtil(randomContract).getRandomNumber(eliteCharacters.length - 1)];
-    } else if (pctRnd <= 40) {
-      qualityId = 1;
-      characterId = commonCharacters[RandomUtil(randomContract).getRandomNumber(commonCharacters.length - 1)];
-    } else {
-      qualityId = 2;
-      characterId = rareCharacters[RandomUtil(randomContract).getRandomNumber(rareCharacters.length - 1)];
-    }
-  }
-
   function openBoxByLORDA() public onlyNonContract {
-    require(boxConfig[1].totalSold <= boxConfig[1].quota, "Box is full");
+    require(boxConfig[1].totalSold <= boxConfig[1].quota, "Box is full.");
     require(boxConfig[1].price > 0, "Invalid Box.");
     boxConfig[1].totalSold += 1;
     IERC20Upgradeable(boxConfig[1].currency).transferFrom(msg.sender, treasury, boxConfig[1].price);

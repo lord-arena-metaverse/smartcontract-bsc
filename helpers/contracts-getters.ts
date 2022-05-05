@@ -1,5 +1,5 @@
 import {
-  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory, LordArenaLpStakingFactory, RandomUtilFactory, LordArenaEquipmentFactory, LordArenaCharacterFactory, GachaBoxFactory, LordArenaMarketFactory, LordaWalletFactory
+  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory, LordArenaLpStakingFactory, RandomUtilFactory, LordArenaEquipmentFactory, LordArenaCharacterFactory, GachaBoxFactory, LordArenaMarketFactory, LordaWalletFactory, LordaVestingFactory
 } from '../types';
 import {DRE, getDb} from './misc-utils';
 import {eContractid, tEthereumAddress} from './types';
@@ -72,9 +72,16 @@ export const getLordMarket = async (address?: tEthereumAddress) =>
     await getFirstSigner()
   );
 
+export const getPrivateLord = async (address?: tEthereumAddress) =>
+  await LordaVestingFactory.connect(
+    address ||
+      (await getDb().get(`${eContractid.LORDAVesting}.${DRE.network.name}`).value()).address,
+    await getFirstSigner()
+  );
+
 export const getLordWallet = async (address?: tEthereumAddress) =>
   await LordaWalletFactory.connect(
     address ||
       (await getDb().get(`${eContractid.LordaWallet}.${DRE.network.name}`).value()).address,
-    await getFirstSigner()
+      await getFirstSigner()
   );
