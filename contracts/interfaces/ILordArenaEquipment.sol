@@ -167,4 +167,5 @@ interface ILordArenaEquipment is IERC165Upgradeable {
   function getTokenOwners(address _owner, uint256[] memory _selectedIdx) external view returns (CharacterInfo[] memory);
 
   function tokensOfOwners(address _owner, uint256 index) external view returns (uint256 tokenId);
+  function burn(uint256 tokenId) external;
 }

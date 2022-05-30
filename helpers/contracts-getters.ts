@@ -1,5 +1,5 @@
 import {
-  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory, LordArenaLpStakingFactory, RandomUtilFactory, LordArenaEquipmentFactory, LordArenaCharacterFactory, GachaBoxFactory, LordArenaMarketFactory, LordaWalletFactory, LordaVestingFactory
+  InitializableAdminUpgradeabilityProxyFactory, LordArenaTokenDevFactory, LordArenaStakingFactory, LordArenaLpStakingFactory, RandomUtilFactory, LordArenaEquipmentFactory, LordArenaCharacterFactory, GachaBoxFactory, LordArenaMarketFactory, LordaWalletFactory, LordaVestingFactory, LordArenaUpgradeCharacterFactory, LordArenaWalletNftFactory
 } from '../types';
 import {DRE, getDb} from './misc-utils';
 import {eContractid, tEthereumAddress} from './types';
@@ -83,5 +83,19 @@ export const getLordWallet = async (address?: tEthereumAddress) =>
   await LordaWalletFactory.connect(
     address ||
       (await getDb().get(`${eContractid.LordaWallet}.${DRE.network.name}`).value()).address,
+      await getFirstSigner()
+  );
+
+export const getLordUpgradeCharacter = async (address?: tEthereumAddress) =>
+  await LordArenaUpgradeCharacterFactory.connect(
+    address ||
+      (await getDb().get(`${eContractid.LordArenaUpgradeCharacter}.${DRE.network.name}`).value()).address,
+      await getFirstSigner()
+  );
+
+export const getLordWalletNFT = async (address?: tEthereumAddress) =>
+  await LordArenaWalletNftFactory.connect(
+    address ||
+      (await getDb().get(`${eContractid.LordArenaWalletNFT}.${DRE.network.name}`).value()).address,
       await getFirstSigner()
   );

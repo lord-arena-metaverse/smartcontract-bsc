@@ -120,7 +120,7 @@ const buidlerConfig: HardhatUserConfig = {
     ropsten: getCommonNetworkConfig(eEthereumNetwork.ropsten, 3),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
     bbtest: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      url: "https://data-seed-prebsc-1-s2.binance.org:8545/",
       // url: 'https://bsc-dataseed.binance.org/',
       chainId: 97,
       // chainId: 56,

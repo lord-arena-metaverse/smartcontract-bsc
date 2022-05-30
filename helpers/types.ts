@@ -35,6 +35,8 @@ export enum eContractid {
   InitializableAdminUpgradeabilityProxy = "InitializableAdminUpgradeabilityProxy",
   LordArenaClaimTokenDev = "LordArenaClaimTokenDev",
   LordArenaWallet = "LordArenaWallet",
+  LordArenaUpgradeCharacter = "LordArenaUpgradeCharacter",
+  LordArenaWalletNFT = "LordArenaWalletNFT",
 }
 
 export type tEthereumAddress = string;
@@ -51,6 +53,8 @@ export interface AddressConfig {
   RandomUtil: string;
   LordArenaMarket: string;
   LordaWallet: string;
+  LordaUpgradeCharacter: string;
+  LordArenaWalletNFT: string;
 }
 
 export let eBBTestAddress: AddressConfig = {
@@ -63,7 +67,9 @@ export let eBBTestAddress: AddressConfig = {
   LordArenaEquipment: "0x329021Eb1820BfF8Ad494db75f641b88956dEA4f",
   RandomUtil: "0x28b77e4D781E5D6684c907F677B701A73b330696",
   LordArenaMarket: "0xe7e5C5325426556D4c3F448E5928B05D96Bec0fE",
-  LordaWallet: "0xBA464a42A962545232892CE6fe8bB2646dBf29B9"
+  LordaWallet: "0xBA464a42A962545232892CE6fe8bB2646dBf29B9",
+  LordaUpgradeCharacter: "",
+  LordArenaWalletNFT: "0xFC8dDc0D7f914A537E241Ce03BE234ac574bACD5"
 };
 
 export let eBSCAddress: AddressConfig = {
@@ -76,5 +82,7 @@ export let eBSCAddress: AddressConfig = {
   LordArenaEquipment: "",
   RandomUtil: "",
   LordArenaMarket: "",
-  LordaWallet: ""
+  LordaWallet: "",
+  LordaUpgradeCharacter: "",
+  LordArenaWalletNFT: ""
 };

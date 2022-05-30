@@ -13,6 +13,8 @@ import {
   LordaWalletFactory,
   LordArenaWalletFactory,
   LordArenaClaimTokenDevFactory,
+  LordArenaUpgradeCharacterFactory,
+  LordArenaWalletNftFactory
 } from "../types";
 import { withSaveAndVerify } from "./contracts-helpers";
 import { waitForTx } from "./misc-utils";
@@ -123,6 +125,26 @@ export const deployLordArenaWallet = async (verify?: boolean) => {
   return withSaveAndVerify(
     await new LordArenaWalletFactory(await getFirstSigner()).deploy(...args),
     eContractid.LordArenaWallet,
+    args,
+    verify
+  );
+};
+
+export const deployLordArenaUpgradeCharacter = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new LordArenaUpgradeCharacterFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordArenaUpgradeCharacter,
+    args,
+    verify
+  );
+};
+
+export const deployLordArenaWalletNFT = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new LordArenaWalletNftFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordArenaWalletNFT,
     args,
     verify
   );
