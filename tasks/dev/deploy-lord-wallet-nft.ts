@@ -71,14 +71,14 @@ task(`config-${LordArenaWalletNFT}`, `Deploys the ${LordArenaWalletNFT} contract
     else if (network == eEthereumNetwork.bsc) {
       globalAddress = eBSCAddress;
       whitelist = [
-        
+        "0xfe0ED8634B67FEAd59e58cc3458D14A47C5c9248"
       ]
     }
 
     const contract = await getLordWalletNFT(globalAddress.LordArenaWalletNFT);
 
     // Set NFT Address
-    console.log(`\t\t Update config NFT Address : ${(await contract.updateConfig(globalAddress.LordArenaCharacter, globalAddress.LordArenaEquipment)).hash} `);  
+    // console.log(`\t\t Update config NFT Address : ${(await contract.updateConfig(globalAddress.LordArenaCharacter, globalAddress.LordArenaEquipment)).hash} `);  
     
     // Set Whitelist Withdraw
     for (let index = 0; index < whitelist.length; index++) {
