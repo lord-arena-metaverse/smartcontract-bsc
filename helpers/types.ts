@@ -83,7 +83,7 @@ export let eBSCAddress: AddressConfig = {
   LordArenaEquipment: "0x765bC67f4d3f9823B4b466ee9a95436C10BF4f9b",
   RandomUtil: "0x19c980340B7C7b33B12Aced54d50Cdb9A3ceBFce",
   LordArenaMarket: "0xEd4ED769a627f0ba34a8cEbcd655c2eD77F021dd",
-  LordaWallet: "",
+  LordaWallet: "0x10BcD72b06240C2A8dF23b7587E898cF4Be06f93",
   LordaUpgradeCharacter: "",
-  LordArenaWalletNFT: ""
+  LordArenaWalletNFT: "0x5c4AbAd7825Bef0D2917E585aC86E1399e0FE923"
 };
