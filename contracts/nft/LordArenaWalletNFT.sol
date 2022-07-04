@@ -87,7 +87,7 @@ contract LordArenaWalletNFT is Initializable, OwnableUpgradeable {
         tokenDeposit[_tokenIDs[index]].charWithdrawAt = block.timestamp;
       }
       else {
-        require(receiver == tokenDeposit[_tokenIDs[index]].senderCharacter, "Invalid nft owner.");
+        require(receiver == tokenDeposit[_tokenIDs[index]].senderEquiqment, "Invalid nft owner.");
         IERC721Upgradeable(_nftAddress).transferFrom(address(this), receiver, _tokenIDs[index]);
         tokenDeposit[_tokenIDs[index]].senderEquiqment = address(0);
         tokenDeposit[_tokenIDs[index]].nftEquiqment = address(0);

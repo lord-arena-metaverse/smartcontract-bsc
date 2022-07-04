@@ -34,19 +34,19 @@ task(`deploy-${LordArenaWalletNFT}`, `Deploys the ${LordArenaWalletNFT} contract
     // @ts-ignore
     const encodedInitializeStaking = contractImpl.interface.encodeFunctionData('initialize', []);
 
-    const proxyContract = await deployInitializableAdminUpgradeabilityProxy();
-    await proxyContract.deployTransaction.wait();
+    // const proxyContract = await deployInitializableAdminUpgradeabilityProxy();
+    // await proxyContract.deployTransaction.wait();
 
-    await waitForTx(
-        await proxyContract.functions['initialize(address,address,bytes)'](
-          contractImpl.address,
-          globalAddress.ProxyAdmin,
-          encodedInitializeStaking
-        )
-      );
+    // await waitForTx(
+    //     await proxyContract.functions['initialize(address,address,bytes)'](
+    //       contractImpl.address,
+    //       globalAddress.ProxyAdmin,
+    //       encodedInitializeStaking
+    //     )
+    //   );
 
-    // const proxyContract = await getProxy("0xC102bEB6add3404b43eA0a87dC002a975d95ffC9");
-    // await proxyContract.upgradeTo(contractImpl.address);
+    const proxyContract = await getProxy(globalAddress.LordArenaWalletNFT);
+    await proxyContract.upgradeTo("0x06Ffe76A057cf0fecDaa0A2585484C513572E977");
   });
 
 

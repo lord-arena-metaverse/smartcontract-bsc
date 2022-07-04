@@ -30,15 +30,16 @@ task(`action-general`, `Deploys the ${LordArenaCharacter} contract`)
     }
 
     const charContract = await getLordCharacter(globalAddress.LordArenaCharacter);
+    const equiqmentContract = await getLordCharacter(globalAddress.LordArenaEquipment);
     const walletNFTContract = await getLordWalletNFT(globalAddress.LordArenaWalletNFT);
 
     const sender = "0xFCDE74D621f65aDDc2532A3cF1B79ebA8D63bE47"
     // Approve the character
-    // console.log(`\t\t Update config NFT Address : ${(await charContract.setApprovalForAll(globalAddress.LordArenaWalletNFT, true)).hash} `);  
+    // console.log(`\t\t Update config NFT Address : ${(await equiqmentContract.setApprovalForAll(globalAddress.LordArenaWalletNFT, true)).hash} `);  
 
     // Deposit the character
-    console.log(`\t\t Deposit : ${(await walletNFTContract.deposit([3324, 3323], globalAddress.LordArenaCharacter)).hash} `);  
+    console.log(`\t\t Deposit : ${(await walletNFTContract.deposit([3320,3319,3318], globalAddress.LordArenaCharacter)).hash} `);  
 
     // withdraw the character
-    // console.log(`\t\t Withdraw : ${(await walletNFTContract.withdraw([3324, 3323], globalAddress.LordArenaCharacter, sender)).hash} `);  
+    // console.log(`\t\t Withdraw : ${(await walletNFTContract.withdraw([3323], globalAddress.LordArenaEquipment, sender)).hash} `);  
   });
