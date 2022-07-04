@@ -14,7 +14,8 @@ import {
   LordArenaWalletFactory,
   LordArenaClaimTokenDevFactory,
   LordArenaUpgradeCharacterFactory,
-  LordArenaWalletNftFactory
+  LordArenaWalletNftFactory,
+  LordaDTokenFactory
 } from "../types";
 import { withSaveAndVerify } from "./contracts-helpers";
 import { waitForTx } from "./misc-utils";
@@ -145,6 +146,17 @@ export const deployLordArenaWalletNFT = async (verify?: boolean) => {
   return withSaveAndVerify(
     await new LordArenaWalletNftFactory(await getFirstSigner()).deploy(...args),
     eContractid.LordArenaWalletNFT,
+    args,
+    verify
+  );
+};
+
+
+export const deployLordaDToken = async (verify?: boolean) => {
+  const args: [] = [];
+  return withSaveAndVerify(
+    await new LordaDTokenFactory(await getFirstSigner()).deploy(...args),
+    eContractid.LordaDToken,
     args,
     verify
   );

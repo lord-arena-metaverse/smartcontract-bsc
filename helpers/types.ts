@@ -37,6 +37,7 @@ export enum eContractid {
   LordArenaWallet = "LordArenaWallet",
   LordArenaUpgradeCharacter = "LordArenaUpgradeCharacter",
   LordArenaWalletNFT = "LordArenaWalletNFT",
+  LordaDToken = "LordaDToken"
 }
 
 export type tEthereumAddress = string;
@@ -73,15 +74,15 @@ export let eBBTestAddress: AddressConfig = {
 };
 
 export let eBSCAddress: AddressConfig = {
-  LORDAToken: "",
-  LORDADToken: "",
-  GachaBox: "",
-  ProxyAdmin: "",
-  Treasury: "",
-  LordArenaCharacter: "",
-  LordArenaEquipment: "",
-  RandomUtil: "",
-  LordArenaMarket: "",
+  LORDAToken: "0xc326622FcA914CA15fD44DD070232cE3cd358Dde",
+  LORDADToken: "0x52F7714cE51Fe271606c1caFE5E1F4722421BE8a",
+  GachaBox: "0x937C06D619bf9367Bc18f6E8D446105Ef2879B84",
+  ProxyAdmin: "0x683b99Fcd0a8cc0d10718Bb1a85B3b78345065b8",
+  Treasury: "0x359269513a2e76b4153F8f181eA1A7fc9655fA50",
+  LordArenaCharacter: "0x8fFaddFc3A0C00D989E1dFbaABfcb05D27AFc683",
+  LordArenaEquipment: "0x765bC67f4d3f9823B4b466ee9a95436C10BF4f9b",
+  RandomUtil: "0x19c980340B7C7b33B12Aced54d50Cdb9A3ceBFce",
+  LordArenaMarket: "0xEd4ED769a627f0ba34a8cEbcd655c2eD77F021dd",
   LordaWallet: "",
   LordaUpgradeCharacter: "",
   LordArenaWalletNFT: ""
